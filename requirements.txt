@@ -1,0 +1,7 @@
+First version
+ - In memory
+ - works with strings
+
+Second version
+ - Persist
+ - works with files
