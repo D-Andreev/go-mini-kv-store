@@ -12,5 +12,5 @@ RUN go mod download
 # Copy local code to the container image.
 COPY . ./
 
-# Build the binary.
-RUN go build ./cmd/go-mini-kv-store 
+# Build the binar.
+RUN go build -v ./build/...
