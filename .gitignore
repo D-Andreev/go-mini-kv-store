@@ -1,1 +1,2 @@
-.build/
+build/
+go-mini-kv-store
