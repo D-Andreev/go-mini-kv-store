@@ -26,3 +26,6 @@ jobs:
 
       - name: Start server
         run: make run-ci
+
+      - name: Run e2e tests
+        run: make test-e2e
