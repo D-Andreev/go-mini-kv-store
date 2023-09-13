@@ -13,5 +13,19 @@ jobs:
         with:
           go-version: "1.21"
 
-      - name: Build Docker Image
-        run: docker build -t go-mini-kv-store .
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y --no-install-recommends install make
+
+      - name: Build package
+        run: make build
+
+      - name: Go vet
+        run: make vet
+
+      - name: Start server
+        run: make run-ci
+
+      - name: Run e2e tests
+        run: make test-e2e

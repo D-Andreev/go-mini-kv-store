@@ -9,8 +9,12 @@ WORKDIR /app
 COPY go.* ./
 RUN go mod download
 
+ENV PORT=3000
+
 # Copy local code to the container image.
 COPY . ./
 
-# Build the binar.
-RUN go build -v ./...
+# Build the binary
+RUN make build 
+
+CMD [ "./go-mini-kv-store" ]
