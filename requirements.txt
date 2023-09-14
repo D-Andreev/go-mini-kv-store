@@ -1,7 +1,7 @@
-First version
+Initial version
  - In memory
  - works with strings
 
-Second version
+Next version
  - Persist
  - works with files

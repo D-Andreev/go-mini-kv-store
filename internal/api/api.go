@@ -26,7 +26,11 @@ func (api *Api) putHandler(c *gin.Context) {
 
 	key := c.Param("key")
 
-	api.kvStore.Put(key, r.Value)
+	_, err := api.kvStore.Put(key, r.Value)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"success": "false", "error": err.Error()})
+		return
+	}
 
 	item, err := api.kvStore.Get(key)
 	if err != nil {
@@ -48,7 +52,7 @@ func (api *Api) getHandler(c *gin.Context) {
 
 	item, err := api.kvStore.Get(key)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"success": "false",
 			"error":   err.Error(),
 		})
@@ -65,18 +69,11 @@ func (api *Api) getHandler(c *gin.Context) {
 func (api *Api) deleteHandler(c *gin.Context) {
 	key := c.Param("key")
 
-	_, err := api.kvStore.Delete(key)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"success": "false",
-			"error":   err.Error(),
-		})
-		return
-	}
+	deletedKey, _ := api.kvStore.Delete(key)
 
 	c.JSON(http.StatusOK, gin.H{
 		"success": "true",
-		"key":     key,
+		"key":     deletedKey,
 	})
 }
 

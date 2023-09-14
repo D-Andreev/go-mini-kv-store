@@ -8,7 +8,7 @@ import (
 
 func MakeRequest(method, url string, body interface{}) (*http.Response, error) {
 	postBody, _ := json.Marshal(body)
-	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(postBody))
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(postBody))
 	if err != nil {
 		return nil, err
 	}

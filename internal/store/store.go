@@ -1,33 +1,30 @@
 package store
 
-import "errors"
-
-type KVStore struct {
-	store map[string]string
+type Repo interface {
+	Put(key string, value string) (string, error)
+	Get(key string) (string, error)
+	Delete(key string) (string, error)
 }
 
-func NewKVStore() *KVStore {
+type KVStore struct {
+	repo Repo
+}
+
+func NewKVStore(repo Repo) *KVStore {
 	kvStore := new(KVStore)
-	kvStore.store = make(map[string]string)
+	kvStore.repo = repo
 
 	return kvStore
 }
 
 func (kvStore *KVStore) Put(key string, value string) (string, error) {
-	kvStore.store[key] = value
-
-	return value, nil
+	return kvStore.repo.Put(key, value)
 }
 
 func (kvStore *KVStore) Get(key string) (string, error) {
-	if _, ok := kvStore.store[key]; !ok {
-		return "", errors.New("key not found")
-	}
-
-	return kvStore.store[key], nil
+	return kvStore.repo.Get(key)
 }
 
 func (kvStore *KVStore) Delete(key string) (string, error) {
-	delete(kvStore.store, key)
-	return key, nil
+	return kvStore.repo.Delete(key)
 }
